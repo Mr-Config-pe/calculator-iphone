@@ -50,7 +50,7 @@ function Calculator() {
   };
 
   return (
-    // eslint-disable-next-line
+    
     <div className="calculator">
       <img src={backcel} className="back-cel" />
       <div className="display">{display}</div>
