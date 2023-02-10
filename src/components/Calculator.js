@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../assets/css/Calculator.css";
+
 import backcel from "../assets/images/back-calculator.png";
 
 function Calculator() {
