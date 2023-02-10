@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import backcel from "../assets/images/back-calculator.png";
+
 
 function Calculator() {
   const [display, setDisplay] = useState("0");
@@ -10,10 +10,6 @@ function Calculator() {
     if (display.length < 50) {
       setDisplay(display === "0" ? value : display + value);
     }
-  };
-
-  const handleEvaluate = () => {
-    setDisplay(eval(display).toString());
   };
 
   const handleClear = () => {
@@ -28,9 +24,6 @@ function Calculator() {
     setDisplay(display.includes(".") ? display : display + ".");
   };
 
-  const handlePercentage = () => {
-    setDisplay((eval(display) / 100).toString());
-  };
 
   const handleClearOrBackspace = () => {
     if (doubleClick) {
@@ -52,7 +45,7 @@ function Calculator() {
   return (
     
     <div className="calculator">
-      <img src={backcel} className="back-cel" />
+      
       <div className="display">{display}</div>
       <div className="row">
         <button onClick={handleClearOrBackspace} className="btn-gris">
@@ -61,9 +54,7 @@ function Calculator() {
         <button onClick={handleSignChange} className="btn-gris">
           +/-
         </button>
-        <button onClick={handlePercentage} className="btn-gris">
-          %
-        </button>
+      
         <button onClick={() => handleClick("/")} className="symbol">
           ÷
         </button>
@@ -117,9 +108,7 @@ function Calculator() {
         <button onClick={handleDecimal} className="symbol">
           .
         </button>
-        <button onClick={handleEvaluate} className="symbol">
-          =
-        </button>
+      
       </div>
     </div>
   );
