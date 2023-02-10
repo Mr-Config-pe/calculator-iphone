@@ -52,7 +52,7 @@ function Calculator() {
   return (
     // eslint-disable-next-line
     <div className="calculator">
-      <img src={backcel} className="back-cel" />
+      <img src={backcel} className="back-cel" alt="cel-iphone" />
       <div className="display">{display}</div>
       <div className="row">
         <button onClick={handleClearOrBackspace} className="btn-gris">
