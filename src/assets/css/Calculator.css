@@ -1,5 +1,11 @@
 /* ---------- Inicio Code By Immer ---------- */
 
+/* Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Questrial&display=swap'); /* font-family: 'Questrial', sans-serif; */
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap'); /* font-family: 'Roboto', sans-serif; */
+/* Fonts */
+
+
 .calculator {
     width: 360px; 
     height: 500px ; 
@@ -13,23 +19,30 @@
   }
   
   .display {
+    
+    padding-right: 10px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
     color: rgb(255, 255, 255); 
-    padding: 1rem;
     font-size: 4rem;
-    width: 250px;
-    height: 92px; 
+    width: 300px;
+    height: 90px;
     text-align: right;
-    margin-bottom: 1rem;
     overflow: hidden;
-    z-index: 1;
-  
+    z-index: 3;
+    font-family: 'Roboto', sans-serif;
+  }
+
+  .container-row{
+    padding-top: 50px;
+    z-index: 2;
   }
   
   .row {
     display: flex;
     justify-content: center;
     width: 350px; 
-    z-index: 1;
   }
 
   .number-calc{
@@ -56,7 +69,6 @@
 }
   
   button {
-    background-color: yellow;
     border: 2px solid black;
     color: rgb(255, 255, 255); 
     font-size: 1.5rem;
@@ -66,6 +78,7 @@
     border-radius: 50%; 
     outline: none;
     cursor: pointer;
+    font-family: 'Roboto', sans-serif;
     
   }
   
