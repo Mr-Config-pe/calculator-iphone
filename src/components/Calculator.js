@@ -5,20 +5,36 @@ import backcel from "../assets/images/back-calculator.png";
 function Calculator() {
   const [display, setDisplay] = useState("0");
   const [doubleClick, setDoubleClick] = useState(false);
-  const operators = ['+', '-', '*', '/', '%']; 
+  const [fontSize, setFontSize] = useState(45);
+  const operators = ["+", "-", "*", "/", "%"];
 
   const handleClick = (value) => {
-    if (display.length < 50) {
+    if (display.length < 20) {
       let newDisplay = display === "0" ? value : display + value;
-      if (operators.includes(value) && operators.includes(display[display.length - 1])) {
+      if (
+        operators.includes(value) &&
+        operators.includes(display[display.length - 1])
+      ) {
         newDisplay = display.slice(0, display.length - 1) + value;
       }
       setDisplay(newDisplay);
+      let fontSize = 45;
+      if (display.length > 7 && display.length <= 9) {
+        fontSize = 40;
+      } else if (display.length > 9 && display.length <= 11) {
+        fontSize = 35;
+      } else if (display.length > 11 && display.length <= 13) {
+        fontSize = 30;
+      } else if (display.length > 13 && display.length <= 15) {
+        fontSize = 25;
+      } else if (display.length > 15 && display.length <= 20) {
+        fontSize = 20;
+      }
+      setFontSize(fontSize);
     }
   };
-  
 
-const handleEvaluate = () => {
+  const handleEvaluate = () => {
     let result = eval(display);
     result = Number(result.toFixed(5));
     setDisplay(result.toString());
@@ -33,9 +49,9 @@ const handleEvaluate = () => {
   };
 
   const handleDecimal = () => {
-    let parts = display.split(/[\+\-\*\/]/);
+    let parts = display.split(/[/+/-/*/]/);
     let lastPart = parts[parts.length - 1];
-    
+
     if (!lastPart.includes(".")) {
       setDisplay(display + ".");
     }
@@ -47,6 +63,8 @@ const handleEvaluate = () => {
 
   const handleClearOrBackspace = () => {
     if (doubleClick) {
+      setFontSize(45);
+
       handleClear();
       setDoubleClick(false);
     } else {
@@ -65,8 +83,10 @@ const handleEvaluate = () => {
   return (
     // eslint-disable-next-line
     <div className="calculator">
-      <img src={backcel} className="back-cel" />
-      <div className="display">{display}</div>
+      <img src={backcel} className="back-cel" alt="Fondo de Iphone para React"/>
+      <div className="display" style={{ fontSize: `${fontSize}px` }}>
+        {display}
+      </div>
       <div className="row">
         <button onClick={handleClearOrBackspace} className="btn-gris">
           {doubleClick ? "AC" : "C"}
