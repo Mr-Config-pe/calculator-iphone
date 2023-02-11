@@ -5,15 +5,23 @@ import backcel from "../assets/images/back-calculator.png";
 function Calculator() {
   const [display, setDisplay] = useState("0");
   const [doubleClick, setDoubleClick] = useState(false);
+  const operators = ['+', '-', '*', '/', '%']; 
 
   const handleClick = (value) => {
     if (display.length < 50) {
-      setDisplay(display === "0" ? value : display + value);
+      let newDisplay = display === "0" ? value : display + value;
+      if (operators.includes(value) && operators.includes(display[display.length - 1])) {
+        newDisplay = display.slice(0, display.length - 1) + value;
+      }
+      setDisplay(newDisplay);
     }
   };
+  
 
-  const handleEvaluate = () => {
-    setDisplay(eval(display).toString());
+const handleEvaluate = () => {
+    let result = eval(display);
+    result = Number(result.toFixed(5));
+    setDisplay(result.toString());
   };
 
   const handleClear = () => {
@@ -25,7 +33,12 @@ function Calculator() {
   };
 
   const handleDecimal = () => {
-    setDisplay(display.includes(".") ? display : display + ".");
+    let parts = display.split(/[\+\-\*\/]/);
+    let lastPart = parts[parts.length - 1];
+    
+    if (!lastPart.includes(".")) {
+      setDisplay(display + ".");
+    }
   };
 
   const handlePercentage = () => {
