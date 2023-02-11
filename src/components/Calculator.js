@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "../assets/css/Calculator.css";
-import backcel from "../assets/images/back-calculator.png";
+import backcel from "../assets/images/back-calculator.avif";
 
 function Calculator() {
   const [display, setDisplay] = useState("0");
