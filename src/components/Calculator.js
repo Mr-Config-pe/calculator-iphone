@@ -41,6 +41,7 @@ function Calculator() {
   };
 
   const handleEvaluate = () => {
+    // eslint-disable-next-line
     let result = eval(display);
     result = Number(result.toFixed(5));
     setDisplay(result.toString());
@@ -64,6 +65,7 @@ function Calculator() {
   };
 
   const handlePercentage = () => {
+    // eslint-disable-next-line
     setDisplay((eval(display) / 100).toString());
   };
 
