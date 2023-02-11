@@ -56,7 +56,7 @@ function Calculator() {
   };
 
   const handleDecimal = () => {
-    let parts = display.split(/[/+/-/*/]/);
+  let parts = display.split(/[/+/*/-]/);
     let lastPart = parts[parts.length - 1];
 
     if (!lastPart.includes(".")) {
