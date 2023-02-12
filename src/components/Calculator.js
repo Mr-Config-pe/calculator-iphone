@@ -82,7 +82,7 @@ function Calculator() {
 
   const handleClearOrBackspace = () => {
     if (doubleClick) {
-      setFontSize(60);
+      setFontSize(65);
 
       handleClear();
       setDoubleClick(false);
