@@ -2,7 +2,7 @@
 
 /* Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Questrial&display=swap'); /* font-family: 'Questrial', sans-serif; */
-@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap'); /* font-family: 'Roboto', sans-serif; */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500&display=swap'); /* font-family: 'Roboto', sans-serif; */
 /* Fonts */
 
 
@@ -33,6 +33,7 @@
     overflow: hidden;
     z-index: 3;
     font-family: 'Roboto', sans-serif;
+    font-weight: 100;
   }
 
   .container-row{
@@ -80,6 +81,7 @@
     outline: none;
     cursor: pointer;
     font-family: 'Roboto', sans-serif;
+    font-weight: 400;
     
   }
   

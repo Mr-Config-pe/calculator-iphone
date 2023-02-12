@@ -113,7 +113,7 @@ function Calculator() {
         </div>
         <div className="row">
           <button onClick={handleClearOrBackspace} className="btn-gris">
-            {doubleClick ? "AC" : "C"}
+            {display !== "0" ? "C" : "AC"}
           </button>
           <button onClick={handleSignChange} className="btn-gris">
             +/-
