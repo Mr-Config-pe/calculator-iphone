@@ -38,25 +38,27 @@ function Calculator() {
 
   const performOperation = (nextOperator) => {
     const inputValue = parseFloat(displayValue);
-
+  
     if (operand1 === null) {
       setOperand1(inputValue);
     } else if (operator) {
       const currentValue = operand1 || 0;
       let result = performCalculation[operator](currentValue, inputValue);
-
-      if (Number.isInteger(currentValue) && Number.isInteger(inputValue)) {
+  
+      if (result.toString().includes('.')) {
+        result = result.toFixed(2);
+      } else {
         result = Math.round(result);
       }
-
+  
       setOperand1(result);
       setDisplayValue(result.toString());
     }
-
+  
     setWaitingForOperand(true);
     setOperator(nextOperator);
   };
-
+  
   const performPercentage = () => {
     const inputValue = parseFloat(displayValue);
     setDisplayValue(inputValue / 100);
