@@ -3,87 +3,97 @@ import "../assets/css/Calculator.css";
 import backcel from "../assets/images/back-calculator.avif";
 
 function Calculator() {
-  const [display, setDisplay] = useState("0");
+  const [displayValue, setDisplayValue] = useState("0");
+  const [operator, setOperator] = useState(null);
+  const [operand1, setOperand1] = useState(null);
+  /* const [operand2, setOperand2] = useState(null); */
+  const [waitingForOperand, setWaitingForOperand] = useState(false);
   const [doubleClick, setDoubleClick] = useState(false);
-  const [fontSize, setFontSize] = useState(65);
-  const operators = ["+", "-", "*", "/", "%"];
 
-  const formatNumberWithCommas = (num) => {
-    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  const formatNumber = (num) => {
+    const isDecimal = num % 1 !== 0;
+    return isDecimal
+      ? num.toString()
+      : num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,"); /* Separador decimales coma */
   };
 
-  const handleClick = (value) => {
-    if (display.length < 15) {
-      let newDisplay =
-        display === "0" && (value === "." || !operators.includes(value))
-          ? value
-          : display + value;
-      if (
-        operators.includes(value) &&
-        (operators.includes(display[display.length - 1]) ||
-          display[display.length - 1] === ".")
-      ) {
-        newDisplay = display.slice(0, display.length - 1) + value;
+  const inputDigit = (digit) => {
+    if (waitingForOperand) {
+      setDisplayValue(String(digit));
+      setWaitingForOperand(false);
+    } else {
+      if (digit === "." && displayValue.includes(".")) {
+        return;
       }
-      setDisplay(newDisplay);
-      let fontSize = 65;
-      if (display.length > 3 && display.length <= 4) {
-        fontSize = 60;
-      } else if (display.length > 4 && display.length <= 5) {
-        fontSize = 55;
-      } else if (display.length > 5 && display.length <= 6) {
-        fontSize = 50;
-      } else if (display.length > 6 && display.length <= 7) {
-        fontSize = 45;
-      } else if (display.length > 7 && display.length <= 8) {
-        fontSize = 40;
-      } else if (display.length > 8 && display.length <= 9) {
-        fontSize = 35;
-      } else if (display.length > 9 && display.length <= 10) {
-        fontSize = 30;
-      } else if (display.length > 10 && display.length <= 11) {
-        fontSize = 25;
-      } else if (display.length > 11 && display.length <= 15) {
-        fontSize = 20;
+      if (displayValue.length < 6) { /* Limite de Digitos en Pantalla */
+        setDisplayValue(
+          displayValue === "0" && digit !== "."
+            ? String(digit)
+            : displayValue + digit
+        );
       }
-      setFontSize(fontSize);
+      
     }
   };
 
-  const handleEvaluate = () => {
-    // eslint-disable-next-line
-    let result = eval(display);
-    result = Number(result.toFixed(5));
-    setDisplay(result.toString());
+  const performOperation = (nextOperator) => {
+    const inputValue = parseFloat(displayValue);
+
+    if (operand1 === null) {
+      setOperand1(inputValue);
+    } else if (operator) {
+      const currentValue = operand1 || 0;
+      let result = performCalculation[operator](currentValue, inputValue);
+
+      if (Number.isInteger(currentValue) && Number.isInteger(inputValue)) {
+        result = Math.round(result);
+      }
+
+      setOperand1(result);
+      setDisplayValue(result.toString());
+    }
+
+    setWaitingForOperand(true);
+    setOperator(nextOperator);
+  };
+
+  const performPercentage = () => {
+    const inputValue = parseFloat(displayValue);
+    setDisplayValue(inputValue / 100);
+    setWaitingForOperand(true);
+    console.log(inputValue);
+    console.log(operand1);
+  };
+
+  const performCalculation = {
+    "/": (a, b) => a / b,
+    "*": (a, b) => a * b,
+    "+": (a, b) => a + b,
+    "-": (a, b) => a - b,
+    "=": (a, b) => b,
+  };
+
+  const changeSign = () => {
+    setDisplayValue((displayValue * -1).toString());
+  };
+
+  /* Inicio Borrado de Pantalla */
+
+  const handleBackspace = () => {
+    setDisplayValue(displayValue.length > 1 ? displayValue.slice(0, -1) : "0");
   };
 
   const handleClear = () => {
-    setDisplay("0");
-  };
-
-  const handleBackspace = () => {
-    setDisplay(display.length > 1 ? display.slice(0, -1) : "0");
-  };
-
-  const handleDecimal = () => {
-    let parts = display.split(/[/+/*/-]/);
-    let lastPart = parts[parts.length - 1];
-    let lastCharacter = display[display.length - 1];
-
-    if (!lastPart.includes(".") && !/[/+/*/-]/.test(lastCharacter)) {
-      setDisplay(display + ".");
-    }
-  };
-
-  const handlePercentage = () => {
-    // eslint-disable-next-line
-    setDisplay((eval(display) / 100).toString());
+    setDisplayValue("0");
+    setOperator(null);
+    setOperand1(null);
+    /* setOperand2(null);*/
+    setWaitingForOperand(false);
   };
 
   const handleClearOrBackspace = () => {
     if (doubleClick) {
-      setFontSize(65);
-
+      /*setFontSize(65); Desabilitado*/ 
       handleClear();
       setDoubleClick(false);
     } else {
@@ -95,12 +105,9 @@ function Calculator() {
     }, 500);
   };
 
-  const handleSignChange = () => {
-    setDisplay((parseFloat(display) * -1).toString());
-  };
+  /* Fin Borrado de Pantalla */
 
   return (
-    // eslint-disable-next-line
     <div className="calculator">
       <img
         src={backcel}
@@ -108,73 +115,74 @@ function Calculator() {
         alt="Fondo de Iphone para React"
       />
       <div className="container-row">
-        <div className="display" style={{ fontSize: `${fontSize}px` }}>
-          {formatNumberWithCommas(display)}
-        </div>
+        <div className="display">{formatNumber(displayValue)}</div>
         <div className="row">
           <button onClick={handleClearOrBackspace} className="btn-gris">
-            {display !== "0" ? "C" : "AC"}
+            {displayValue !== "0" ? "C" : "AC"}
           </button>
-          <button onClick={handleSignChange} className="btn-gris">
+          <button onClick={() => changeSign()} className="btn-gris">
             +/-
           </button>
-          <button onClick={handlePercentage} className="btn-gris">
+          <button onClick={() => performPercentage()} className="btn-gris">
             %
           </button>
-          <button onClick={() => handleClick("/")} className="symbol">
+          <button onClick={() => performOperation("/")} className="symbol">
             ÷
           </button>
         </div>
         <div className="row">
-          <button onClick={() => handleClick("7")} className="number-calc">
+          <button onClick={() => inputDigit(7)} className="number-calc">
             7
           </button>
-          <button onClick={() => handleClick("8")} className="number-calc">
+          <button onClick={() => inputDigit(8)} className="number-calc">
             8
           </button>
-          <button onClick={() => handleClick("9")} className="number-calc">
+          <button onClick={() => inputDigit(9)} className="number-calc">
             9
           </button>
-          <button onClick={() => handleClick("*")} className="symbol">
+          <button onClick={() => performOperation("*")} className="symbol">
             ×
           </button>
+          <br />
         </div>
         <div className="row">
-          <button onClick={() => handleClick("4")} className="number-calc">
+          <button onClick={() => inputDigit(4)} className="number-calc">
             4
           </button>
-          <button onClick={() => handleClick("5")} className="number-calc">
+          <button onClick={() => inputDigit(5)} className="number-calc">
             5
           </button>
-          <button onClick={() => handleClick("6")} className="number-calc">
+          <button onClick={() => inputDigit(6)} className="number-calc">
             6
           </button>
-          <button onClick={() => handleClick("-")} className="symbol">
+          <button onClick={() => performOperation("-")} className="symbol">
             -
           </button>
+          <br />
         </div>
         <div className="row">
-          <button onClick={() => handleClick("1")} className="number-calc">
+          <button onClick={() => inputDigit(1)} className="number-calc">
             1
           </button>
-          <button onClick={() => handleClick("2")} className="number-calc">
+          <button onClick={() => inputDigit(2)} className="number-calc">
             2
           </button>
-          <button onClick={() => handleClick("3")} className="number-calc">
+          <button onClick={() => inputDigit(3)} className="number-calc">
             3
           </button>
-          <button onClick={() => handleClick("+")} className="symbol">
+          <button onClick={() => performOperation("+")} className="symbol">
             +
           </button>
+          <br />
         </div>
         <div className="row">
-          <button onClick={() => handleClick("0")} className="number-calc cero">
+          <button onClick={() => inputDigit(0)} className="number-calc cero">
             0
           </button>
-          <button onClick={handleDecimal} className="symbol">
+          <button onClick={() => inputDigit(".")} className="number-calc">
             .
           </button>
-          <button onClick={handleEvaluate} className="symbol">
+          <button onClick={() => performOperation("=")} className="symbol">
             =
           </button>
         </div>
