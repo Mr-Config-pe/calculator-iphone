@@ -9,6 +9,8 @@ function Calculator() {
   /* const [operand2, setOperand2] = useState(null); */
   const [waitingForOperand, setWaitingForOperand] = useState(false);
   const [doubleClick, setDoubleClick] = useState(false);
+  const [disablePoint, setDisablePoint] = useState(false);
+
 
   const formatNumber = (num) => {
     const isDecimal = num % 1 !== 0;
@@ -21,6 +23,7 @@ function Calculator() {
     if (waitingForOperand) {
       setDisplayValue(String(digit));
       setWaitingForOperand(false);
+      setDisablePoint(true); 
     } else {
       if (digit === "." && displayValue.includes(".")) {
         return;
@@ -31,10 +34,11 @@ function Calculator() {
             ? String(digit)
             : displayValue + digit
         );
+        setDisablePoint(true); 
       }
-      
     }
   };
+  
 
   const performOperation = (nextOperator) => {
     const inputValue = parseFloat(displayValue);
@@ -57,6 +61,7 @@ function Calculator() {
   
     setWaitingForOperand(true);
     setOperator(nextOperator);
+    setDisablePoint(false);
   };
   
   const performPercentage = () => {
@@ -181,7 +186,7 @@ function Calculator() {
           <button onClick={() => inputDigit(0)} className="number-calc cero">
             0
           </button>
-          <button onClick={() => inputDigit(".")} className="number-calc">
+          <button onClick={() => inputDigit(".")} className="number-calc" disabled={!disablePoint}>
             .
           </button>
           <button onClick={() => performOperation("=")} className="symbol">
