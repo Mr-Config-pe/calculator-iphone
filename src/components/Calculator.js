@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+/* ---------- Editado By Immer ---------- */
+
+import React, { useEffect, useState } from "react";
 import "../assets/css/Calculator.css";
 import backcel from "../assets/images/back-calculator.avif";
 
@@ -10,6 +12,16 @@ function Calculator() {
   const [waitingForOperand, setWaitingForOperand] = useState(false);
   const [doubleClick, setDoubleClick] = useState(false);
   const [disablePoint, setDisablePoint] = useState(false);
+
+  const [fontSize, setFontSize] = useState(65);
+
+  useEffect(() => {
+    if (displayValue.length > 6) { /* Empieza el cambio de tamaño de fuente*/
+      setFontSize(65 - (displayValue.length - 4) * 4);
+    } else {
+      setFontSize(65);
+    }
+  }, [displayValue]);
 
 
   const formatNumber = (num) => {
@@ -23,18 +35,16 @@ function Calculator() {
     if (waitingForOperand) {
       setDisplayValue(String(digit));
       setWaitingForOperand(false);
-      setDisablePoint(true); 
+      setDisablePoint(true);
     } else {
       if (digit === "." && displayValue.includes(".")) {
         return;
       }
-      if (displayValue.length < 6) { /* Limite de Digitos en Pantalla */
+      if (displayValue.length < 8) { /* Termina el cambio de fuente*/
         setDisplayValue(
-          displayValue === "0" && digit !== "."
-            ? String(digit)
-            : displayValue + digit
+          displayValue === "0" && digit !== "." ? String(digit) : displayValue + digit
         );
-        setDisablePoint(true); 
+        setDisablePoint(true);
       }
     }
   };
@@ -62,6 +72,7 @@ function Calculator() {
     setWaitingForOperand(true);
     setOperator(nextOperator);
     setDisablePoint(false);
+    setFontSize(fontSize); /* Mantiene la fuente antes de la operacion */
   };
   
   const performPercentage = () => {
@@ -122,7 +133,7 @@ function Calculator() {
         alt="Fondo de Iphone para React"
       />
       <div className="container-row">
-        <div className="display">{formatNumber(displayValue)}</div>
+        <div className="display" style={{ fontSize: `${fontSize}px` }}>{formatNumber(displayValue)}</div>
         <div className="row">
           <button onClick={handleClearOrBackspace} className="btn-gris">
             {displayValue !== "0" ? "C" : "AC"}
@@ -198,4 +209,6 @@ function Calculator() {
   );
 }
 
-export default Calculator;
+export default Calculator; 
+
+/* ---------- Editado By Immer ---------- */
