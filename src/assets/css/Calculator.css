@@ -3,6 +3,7 @@
 /* Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Questrial&display=swap'); /* font-family: 'Questrial', sans-serif; */
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500&display=swap'); /* font-family: 'Roboto', sans-serif; */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap'); /* font-family: 'Inter', sans-serif; */
 /* Fonts */
 
   .calculator {
@@ -30,7 +31,7 @@
     text-align: right;
     overflow: hidden;
     z-index: 3;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-weight: 300;
   }
 
@@ -57,7 +58,7 @@
     background-color: #f69906;
   }
 
-  .symbol:hover {
+  .symbol:active {
     background-color: white;
     color: #f69906;
   }
@@ -67,8 +68,9 @@
     color: black;
   }
 
-  .btn-gris:hover {
+  .btn-gris:active{
     background-color: white;
+    transition: background-color 0.1s ease;
     color: black;
   }
   
@@ -82,13 +84,14 @@
     border-radius: 50%; 
     outline: none;
     cursor: pointer;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-weight: 400;
     
   }
   
-  button:hover {
+  button:active {
     background-color: #9f9f9f;
+    transition: background-color 0.1s ease;
   }
 
   .back-cel {

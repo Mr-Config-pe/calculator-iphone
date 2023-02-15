@@ -13,13 +13,13 @@ function Calculator() {
   const [doubleClick, setDoubleClick] = useState(false);
   const [disablePoint, setDisablePoint] = useState(false);
 
-  const [fontSize, setFontSize] = useState(65);
+  const [fontSize, setFontSize] = useState(60);
 
   useEffect(() => {
     if (displayValue.length > 6) { /* Empieza el cambio de tamaño de fuente*/
-      setFontSize(65 - (displayValue.length - 4) * 4);
+      setFontSize(60 - (displayValue.length - 4) * 4);
     } else {
-      setFontSize(65);
+      setFontSize(60);
     }
   }, [displayValue]);
 
