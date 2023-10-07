@@ -1,12 +1,12 @@
 /* ---------- Inicio Code By Immer ---------- */
 
 /* Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Questrial&display=swap'); /* font-family: 'Questrial', sans-serif; */
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500&display=swap'); /* font-family: 'Roboto', sans-serif; */
+/*@import url('https://fonts.googleapis.com/css2?family=Questrial&display=swap');  font-family: 'Questrial', sans-serif; */
+/*@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500&display=swap');  font-family: 'Roboto', sans-serif; */
 /* Fonts */
 
 
-.calculator {
+/* .calculator {
     padding-top: 130px;
     width: 360px; 
     height: 700px ; 
@@ -102,6 +102,6 @@
     border-radius: 30px;
     text-align: start;
     padding-left: 17px;
-  }
+  } */
 
   /* ---------- Fin Code By Immer ---------- */

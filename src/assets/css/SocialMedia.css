@@ -4,8 +4,7 @@
 
 
 .social-media{
-    margin-top: 100px;
-    
+    margin: 0 0 30px 0;
     background-color: transparent; /*Fondo del Contenedor SocialMedia*/
 }
 
@@ -18,11 +17,11 @@
 }
 
 .wrapper {
-    display: inline-flex;
+    display: flex;
 }
 
 .wrapper .icon {
-    margin: 0 30px; /* Distancia Horizontal de los iconos */
+    margin: 0 20px; /* Distancia Horizontal de los iconos */
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -41,7 +40,7 @@
     background: #fff;
     text-align: center;
     border-radius: 50%;
-    box-shadow: 0 10px 10px rgba(0,0,0,0.1);
+    outline: 2px solid rgba(140, 140, 140, 0.20);
     z-index: 2;
 }
 

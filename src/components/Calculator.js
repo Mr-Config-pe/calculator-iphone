@@ -16,19 +16,24 @@ function Calculator() {
   const [fontSize, setFontSize] = useState(60);
 
   useEffect(() => {
-    if (displayValue.length > 6) { /* Empieza el cambio de tamaño de fuente*/
+    if (displayValue.length > 6) {
+      /* Empieza el cambio de tamaño de fuente*/
       setFontSize(60 - (displayValue.length - 4) * 4);
     } else {
       setFontSize(60);
     }
   }, [displayValue]);
 
-
   const formatNumber = (num) => {
     const isDecimal = num % 1 !== 0;
     return isDecimal
       ? num.toString()
-      : num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,"); /* Separador decimales coma */
+      : num
+          .toString()
+          .replace(
+            /(\d)(?=(\d{3})+(?!\d))/g,
+            "$1,"
+          ); /* Separador decimales coma */
   };
 
   const inputDigit = (digit) => {
@@ -40,41 +45,43 @@ function Calculator() {
       if (digit === "." && displayValue.includes(".")) {
         return;
       }
-      if (displayValue.length < 8) { /* Termina el cambio de fuente*/
+      if (displayValue.length < 8) {
+        /* Termina el cambio de fuente*/
         setDisplayValue(
-          displayValue === "0" && digit !== "." ? String(digit) : displayValue + digit
+          displayValue === "0" && digit !== "."
+            ? String(digit)
+            : displayValue + digit
         );
         setDisablePoint(true);
       }
     }
   };
-  
 
   const performOperation = (nextOperator) => {
     const inputValue = parseFloat(displayValue);
-  
+
     if (operand1 === null) {
       setOperand1(inputValue);
     } else if (operator) {
       const currentValue = operand1 || 0;
       let result = performCalculation[operator](currentValue, inputValue);
-  
-      if (result.toString().includes('.')) {
+
+      if (result.toString().includes(".")) {
         result = result.toFixed(2);
       } else {
         result = Math.round(result);
       }
-  
+
       setOperand1(result);
       setDisplayValue(result.toString());
     }
-  
+
     setWaitingForOperand(true);
     setOperator(nextOperator);
     setDisablePoint(false);
     setFontSize(fontSize); /* Mantiene la fuente antes de la operacion */
   };
-  
+
   const performPercentage = () => {
     const inputValue = parseFloat(displayValue);
     setDisplayValue(inputValue / 100);
@@ -111,7 +118,7 @@ function Calculator() {
 
   const handleClearOrBackspace = () => {
     if (doubleClick) {
-      /*setFontSize(65); Desabilitado*/ 
+      /*setFontSize(65); Desabilitado*/
       handleClear();
       setDoubleClick(false);
     } else {
@@ -133,7 +140,9 @@ function Calculator() {
         alt="Fondo de Iphone para React"
       />
       <div className="container-row">
-        <div className="display" style={{ fontSize: `${fontSize}px` }}>{formatNumber(displayValue)}</div>
+        <div className="display" style={{ fontSize: `${fontSize}px` }}>
+          {formatNumber(displayValue)}
+        </div>
         <div className="row">
           <button onClick={handleClearOrBackspace} className="btn-gris">
             {displayValue !== "0" ? "C" : "AC"}
@@ -197,7 +206,11 @@ function Calculator() {
           <button onClick={() => inputDigit(0)} className="number-calc cero">
             0
           </button>
-          <button onClick={() => inputDigit(".")} className="number-calc" disabled={!disablePoint}>
+          <button
+            onClick={() => inputDigit(".")}
+            className="number-calc"
+            disabled={!disablePoint}
+          >
             .
           </button>
           <button onClick={() => performOperation("=")} className="symbol">
@@ -209,6 +222,6 @@ function Calculator() {
   );
 }
 
-export default Calculator; 
+export default Calculator;
 
 /* ---------- Editado By Immer ---------- */
